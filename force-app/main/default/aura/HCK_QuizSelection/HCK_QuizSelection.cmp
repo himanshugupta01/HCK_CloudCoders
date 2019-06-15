@@ -1,0 +1,41 @@
+<aura:component controller="HCK_QuizController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="contactId" type="string" default="0034P00002UxQt5"/>
+    <aura:attribute name="quizMap" type="List"/>
+    <aura:attribute name="quizValue" type="String"/>
+    <aura:attribute name="JunctionId" type="String"/>
+    <aura:attribute name="displayQuizscreen" type="boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="string" default="Please select atleast one option"/>
+    <aura:attribute name="showError" type="boolean" default="false"/>
+    <aura:handler action="{!c.doInit}" name="init" value="{!this}"/>
+    
+    <aura:if isTrue="{!v.displayQuizscreen}">
+        <c:HCK_QuizScreen contactId="{!v.contactId}" quizId="{!v.quizValue}" junction="{!v.JunctionId}"/>
+     <aura:set attribute="else">
+    <aura:if isTrue="{!v.showError}">
+        <!-- Show the message to ui -->
+        <div class="slds-notify slds-notify_toast slds-theme_error">
+            <span class="slds-assistive-text">error</span>
+            <div class="slds-notify__content">
+                <h5 class="slds-text-heading_small slds-align_absolute-center">Error Message </h5>
+                <br/>
+                <p class="slds-align_absolute-center">{!v.errorMessage}</p>                
+            </div>
+        </div>
+    </aura:if>  
+    <aura:if isTrue="{!v.quizMap.length > 0}">
+        <lightning:layout>
+        <lightning:layoutItem padding="around-small">
+    <lightning:radioGroup name="quizList"
+                          label="Select Quiz"
+                          options="{! v.quizMap }"
+                          value="{! v.quizValue }"
+                          type="radio"
+                          required="true"
+                          /><br/>
+        <lightning:button variant="brand" label="Next" onclick="{!c.handleClick}"/>
+            </lightning:layoutItem></lightning:layout>
+      </aura:if>
+         </aura:set>
+    </aura:if>
+    
+</aura:component>

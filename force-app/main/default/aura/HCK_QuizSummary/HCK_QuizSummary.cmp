@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="HCK_QuizSummary">
+    <aura:attribute name="QuizId" type="string"/>
+    <aura:attribute name="candidateId" type="string"/>
+    <aura:attribute name="correctAnswers" type="string"/>
+    <aura:attribute name="totalQuestions" type="string"/>
+    <aura:attribute name="summaryList" type="List"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    
+    <p>Total Question: </p>{!v.totalQuestions} <br/>
+    <p>Correct Answers: </p>{!v.correctAnswers} <br/>
+    
+    
+</aura:component>

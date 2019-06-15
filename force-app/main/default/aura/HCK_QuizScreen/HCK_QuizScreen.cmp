@@ -1,0 +1,47 @@
+<aura:component implements="lightning:isUrlAddressable,force:lightningQuickAction" access="global" controller="HCK_QuestionAnswers">
+    <aura:attribute name="quizId" type="string"></aura:attribute>
+    <aura:attribute name="contactId" type="string"></aura:attribute>
+    <aura:attribute name="junction" type="string"></aura:attribute>
+    <aura:attribute name="showSummary" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="allQuizData" type="list"></aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:if isTrue="{!v.showSummary}">
+        <c:HCK_QuizSummary QuizId="{!v.quizId}" candidateId="{!v.contactId}"/>
+    <aura:set attribute="else">
+    <aura:iteration items="{!v.allQuizData}" var="row" indexVar="index">        
+        <article class="slds-card">        
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-custom67" title="{!row.question.QuestionValue__c}">
+                            <lightning:icon iconName="custom:custom67" size="small" alternativeText="Indicates approval" />						
+                            <span class="slds-assistive-text">{!row.question.QuestionValue__c}</span>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            
+                            <p><span>{!row.question.QuestionValue__c}</span></p>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body slds-card__body_inner">
+                
+                <label class="slds-form-element__label" style="margin-right: 0.5rem;">Options</label>
+                <aura:iteration items="{!row.question.HCK_QuestionsAnswers__r}" var="option" indexVar="index">
+                    
+                    <lightning:input aura:id="answerField" type="{!row.questionType}"
+							label="{!option.HCK_Answer__r.HCK_AnswerValue__c}" value="{!option.Id}"
+							name="{!option.HCK_Answer__r.HCK_AnswerValue__c}"							
+							checked="{!option.selectAnswer}" />
+                </aura:iteration>
+                
+            </div>
+        </article>
+    </aura:iteration>
+    <lightning:button label="Submit Quiz" class="slds-m-top_small" title="Submit" onclick="{!c.saveQuiz}" />
+ </aura:set>
+        </aura:if>      
+</aura:component>
